@@ -1,0 +1,248 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* STROBE VERHUUR UDEN DESIGN SYSTEM - RETRO-FUTURISTIC RAVE INDUSTRIAL */
+
+@layer base {
+  :root {
+    /* Core Strobe Palette */
+    --background: 0 0% 8%;
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 98%;
+
+    /* Primary - Electric Cyan */
+    --primary: 180 100% 50%;
+    --primary-foreground: 0 0% 8%;
+    --primary-glow: 180 100% 65%;
+
+    /* Secondary - Neon Green */
+    --secondary: 120 100% 50%;
+    --secondary-foreground: 0 0% 8%;
+    --secondary-glow: 120 100% 65%;
+
+    /* Accent - Hot Pink */
+    --accent: 320 100% 60%;
+    --accent-foreground: 0 0% 98%;
+    --accent-glow: 320 100% 75%;
+
+    /* Muted - Dark Grays */
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 70%;
+
+    /* Warning - Electric Yellow */
+    --warning: 60 100% 50%;
+    --warning-foreground: 0 0% 8%;
+
+    --destructive: 0 100% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 25%;
+    --input: 0 0% 15%;
+    --ring: 180 100% 50%;
+
+    --radius: 0.25rem;
+
+    /* Strobe Gradients */
+    --gradient-strobe: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    --gradient-flash: linear-gradient(45deg, hsl(var(--warning)), hsl(var(--secondary)));
+    --gradient-neon: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)), hsl(var(--accent)));
+
+    /* Strobe Shadows */
+    --shadow-neon: 0 0 20px hsl(var(--primary) / 0.5);
+    --shadow-strobe: 0 0 30px hsl(var(--accent) / 0.6);
+    --shadow-flash: 0 0 40px hsl(var(--warning) / 0.7);
+
+    /* Typography */
+    --font-cyber: 'Orbitron', 'Courier New', monospace;
+    --font-rave: 'Audiowide', 'Impact', sans-serif;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground overflow-x-hidden;
+    font-family: var(--font-cyber);
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='8' fill='%2300ffff' opacity='0.8'/%3E%3Ccircle cx='10' cy='10' r='4' fill='%23ffffff'/%3E%3C/svg%3E"), auto;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-rave);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+}
+
+@layer components {
+  /* Strobe Button Effects */
+  .btn-strobe {
+    @apply relative overflow-hidden bg-card border-2 border-primary text-primary font-bold py-3 px-6 rounded transition-all duration-300;
+    box-shadow: var(--shadow-neon);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .btn-strobe:hover {
+    @apply bg-primary text-primary-foreground scale-105;
+    box-shadow: var(--shadow-strobe);
+    animation: flash-border 0.5s ease-in-out;
+  }
+
+  .btn-strobe::before {
+    @apply absolute inset-0 bg-primary opacity-0 transition-opacity duration-300;
+    content: '';
+  }
+
+  .btn-strobe:hover::before {
+    @apply opacity-20;
+    animation: strobe-pulse 0.3s ease-in-out;
+  }
+
+  /* Flash Text Effect */
+  .text-flash {
+    @apply relative;
+    animation: text-glow 2s ease-in-out infinite alternate;
+  }
+
+  /* Neon Border Effect */
+  .border-neon {
+    @apply border-2 border-primary;
+    box-shadow: var(--shadow-neon);
+  }
+
+  .border-neon:hover {
+    @apply border-accent;
+    box-shadow: var(--shadow-strobe);
+  }
+
+  /* Glitch Text */
+  .text-glitch {
+    @apply relative;
+    animation: glitch 2s linear infinite;
+  }
+
+  .text-glitch::before,
+  .text-glitch::after {
+    content: attr(data-text);
+    @apply absolute top-0 left-0 w-full h-full;
+  }
+
+  .text-glitch::before {
+    animation: glitch-1 0.5s linear infinite;
+    color: hsl(var(--primary));
+    z-index: -1;
+  }
+
+  .text-glitch::after {
+    animation: glitch-2 0.5s linear infinite;
+    color: hsl(var(--accent));
+    z-index: -2;
+  }
+
+  /* Hero Section Background */
+  .hero-bg {
+    @apply relative;
+    background: linear-gradient(45deg, hsl(var(--background)), hsl(var(--muted)));
+  }
+
+  .hero-bg::before {
+    @apply absolute inset-0 opacity-20;
+    content: '';
+    background: var(--gradient-neon);
+    animation: pulse-bg 3s ease-in-out infinite;
+  }
+
+  /* Scroll Flash Effect */
+  .scroll-flash {
+    @apply fixed inset-0 pointer-events-none opacity-0 bg-primary;
+    animation: scroll-flash-anim 0.1s ease-out;
+  }
+}
+
+@layer utilities {
+  /* Custom Animations */
+  @keyframes flash-border {
+    0%, 100% { border-color: hsl(var(--primary)); }
+    50% { border-color: hsl(var(--accent)); }
+  }
+
+  @keyframes strobe-pulse {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
+
+  @keyframes text-glow {
+    0% { 
+      text-shadow: 0 0 5px hsl(var(--primary)), 0 0 10px hsl(var(--primary)), 0 0 15px hsl(var(--primary));
+    }
+    100% { 
+      text-shadow: 0 0 10px hsl(var(--accent)), 0 0 20px hsl(var(--accent)), 0 0 30px hsl(var(--accent));
+    }
+  }
+
+  @keyframes glitch {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+  }
+
+  @keyframes glitch-1 {
+    0%, 100% { transform: translate(0); opacity: 1; }
+    20% { transform: translate(-2px, 2px); opacity: 0.8; }
+    40% { transform: translate(-2px, -2px); opacity: 0.8; }
+    60% { transform: translate(2px, 2px); opacity: 0.8; }
+    80% { transform: translate(2px, -2px); opacity: 0.8; }
+  }
+
+  @keyframes glitch-2 {
+    0%, 100% { transform: translate(0); opacity: 1; }
+    20% { transform: translate(2px, -2px); opacity: 0.7; }
+    40% { transform: translate(2px, 2px); opacity: 0.7; }
+    60% { transform: translate(-2px, -2px); opacity: 0.7; }
+    80% { transform: translate(-2px, 2px); opacity: 0.7; }
+  }
+
+  @keyframes pulse-bg {
+    0%, 100% { opacity: 0.1; }
+    50% { opacity: 0.3; }
+  }
+
+  @keyframes scroll-flash-anim {
+    0% { opacity: 0; }
+    50% { opacity: 0.05; }
+    100% { opacity: 0; }
+  }
+
+  @keyframes neon-flicker {
+    0%, 100% { opacity: 1; }
+    2% { opacity: 0.8; }
+    4% { opacity: 1; }
+    8% { opacity: 0.8; }
+    10% { opacity: 1; }
+    12% { opacity: 0.8; }
+    14% { opacity: 1; }
+  }
+
+  .animate-neon-flicker {
+    animation: neon-flicker 3s linear infinite;
+  }
+
+  .animate-strobe-slow {
+    animation: strobe-pulse 2s ease-in-out infinite;
+  }
+
+  .animate-strobe-fast {
+    animation: strobe-pulse 0.5s ease-in-out infinite;
+  }
+}
